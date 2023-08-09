@@ -1,0 +1,19 @@
+class A;
+  rand bit[7:0] a,b,c;
+  constraint c1{b-a==32; c-b==32;  }
+  //constraint c1{a%32==0; }
+  //constraint c2{b%32==0;}
+  
+endclass
+
+A aa;
+module B;
+  initial begin
+    aa=new();
+    repeat(4) begin
+    void'(aa.randomize());
+      $display("a=%0d  b=%0d   c=%0d",aa.a,aa.b,aa.c);
+  end
+  end
+endmodule
+
