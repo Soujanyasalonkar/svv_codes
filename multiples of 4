@@ -1,0 +1,15 @@
+class A;
+  rand bit[4:0] a;
+  constraint c1{a[0]==0;a[1]==0;}
+endclass
+
+A aa;
+module B;
+  initial begin
+    aa=new();
+    repeat(5) begin
+    void'(aa.randomize());
+      $display("a=%0d",aa.a);
+    end
+  end
+endmodule
