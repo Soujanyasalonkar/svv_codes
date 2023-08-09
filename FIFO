@@ -1,0 +1,36 @@
+class fifo #(parameter width,depth=16);
+ int data_in;
+  int array[16];
+  int counter;
+ bit 
+  function fifo_read();
+    read_enable=1;
+    counter=counter-1;
+  endfunction
+   
+  function fifo_write();
+    if(write_enable=1) begin
+      foreach(array[i]) begin
+        array[i]=data_in;
+      end
+    counter=counter+1;
+    end
+   endfunction
+   
+   function fifo_full();
+     if(write_enable==1 && read_enable==0 )
+       begin
+         if(counter==16)
+           $display("fifo is full");
+       end
+   endfunction
+   
+   function fifo_empty();
+     counter=16;
+     if(write_enable==0 && read_enable==1 )
+       begin
+         if(counter==0)
+           $display("fifo is empty");
+       end
+  endfunction
+endclass
