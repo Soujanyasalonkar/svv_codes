@@ -1,0 +1,18 @@
+class cons;
+  rand bit[5:0] a[100];
+ int i;
+  constraint c{foreach(a[i])
+    a[i] inside {[1:50]};}
+  
+  constraint c1{//foreach(a[i])
+    a[i] dist {20:/80};}
+endclass
+cons con;
+module A;
+  initial begin
+    con=new();
+    void'(con.randomize());
+    $display("array=%p",con.a);
+  end
+endmodule
+
