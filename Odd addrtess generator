@@ -1,0 +1,18 @@
+class cons;
+  rand bit[3:0] a;
+  constraint c{a%2!=0; }
+endclass
+cons con;
+module A;
+  int i;
+  initial begin
+    con=new();
+    for(i=1;i<=15;i++)begin
+      void'(con.randomize());
+      if(i%5==0) begin
+        con.a=0;
+      end
+    $display("address=%d",con.a);
+  end
+  end
+endmodule
