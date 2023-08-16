@@ -1,0 +1,80 @@
+virtual class fifo #(parameter width=15, depth=16);
+  pure virtual function fifo_read();
+    pure virtual function fifo_write();
+      pure virtual function fifo_full();
+        pure virtual function fifo_empty();
+endclass
+      
+ class fifo_imp extends fifo;
+    bit [15:0] a[];
+  int count;
+  rand bit[15:0] data_in;
+  
+   virtual function fifo_read();
+      bit read=1;
+     if(read==1)
+     count=count-1;
+     $display("reading data %d",data_in);
+     $display("count=%0d",count);
+   endfunction
+  
+   virtual function fifo_write();
+    bit write=1;
+     if(write==1) begin
+       foreach(a[i]) begin
+         a[i]=data_in;
+       end
+     count=count+1;
+       $display("writing data %d",data_in);
+       $display("count=%0d",count);
+     end
+  endfunction
+  
+   virtual function fifo_full();
+     if(count==depth)
+       $display("fifo is full");
+  endfunction
+  
+   virtual function fifo_empty();
+     if(count==0)
+       $display("fifo is empty");
+     endfunction
+ endclass
+          
+
+class fifo_peek extends fifo_imp;
+  
+endclass
+ 
+          
+fifo_imp input_fifo;
+          
+fifo_peek output_fifo;
+          
+module A;
+  initial begin
+    
+    input_fifo = new();
+    output_fifo = new();
+    repeat(32) begin
+    void'(input_fifo.randomize());
+    end
+   
+    repeat(16) begin
+    input_fifo.fifo_write();
+      input_fifo.fifo_full();
+  input_fifo.fifo_empty();
+    end
+   
+    repeat(5) begin
+    input_fifo.fifo_read();
+      input_fifo.fifo_full();
+  input_fifo.fifo_empty();
+    end
+    
+   //input_fifo.fifo_full();
+  //input_fifo.fifo_empty();
+  end
+endmodule
+   
+
