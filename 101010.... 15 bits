@@ -1,0 +1,23 @@
+class A;
+  rand bit[14:0] seq;
+  int i;
+  constraint c1{foreach(seq[i])
+    if(i%2==0)
+    seq[i]==1;
+                else
+                  seq[i]==0;}
+
+                
+endclass
+
+A a;
+
+module B;
+  initial begin
+  a=new();
+   repeat(5) begin
+    void'(a.randomize());
+    $display("%b",a.seq);
+  end
+  end
+endmodule
