@@ -1,0 +1,50 @@
+class A;
+  rand int arr[100];
+  constraint c1{foreach(arr[i])
+    arr[i] inside {[1:101]};
+                unique{arr};
+                arr[50]==20;}
+endclass
+
+A a;
+
+module B;
+  int x[$],y[$],z[$];
+  int i;
+  initial begin
+    a=new();
+    repeat(1) begin
+      void'(a.randomize());
+    $display("array is %p",a.arr);
+      x=a.arr;
+  end
+    
+        repeat(1) begin
+      void'(a.randomize());
+    $display("array is %p",a.arr);
+      y=a.arr;
+  end
+    
+    
+        repeat(1) begin
+      void'(a.randomize());
+    $display("array is %p",a.arr);
+      z=a.arr;
+  end
+
+    foreach(x[i]) begin
+      foreach(y[i]) begin
+        foreach(z[i]) begin
+          if(x[i]==y[i]) begin
+            if(y[i]==z[i]) begin
+              $display("value is %p=x[%p]   value is %p=y[%p]  value is %p=z[%p]",x[i],i,y[i],i,z[i],i);
+      end
+    end
+    end 
+    end
+    end
+        
+  end
+ 
+  
+endmodule
